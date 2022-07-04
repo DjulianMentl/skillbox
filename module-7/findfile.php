@@ -1,6 +1,6 @@
 <?php
 
-$searchRoot = 'E:\OpenServer\domains\localhost\skillbox\module-7\test_search';
+$searchRoot = 'E:/OpenServer/domains/localhost/skillbox/module-7/test_search';
 $searchName = 'test.txt';
 $searchResult = [];
 
@@ -18,12 +18,12 @@ function findFile(string $startDir, string $nameFile, array &$searchResult): voi
     foreach (array_diff(scandir($startDir), array('..', '.', '.git')) as $value) {
         // проверка на наличие папок в директории
         // если найдена, повторный запуск функции
-        if (is_dir($startDir . '\\' . $value)) {
-           findFile($startDir . '\\' . $value, $nameFile, $searchResult);
+        if (is_dir($startDir . '/' . $value)) {
+           findFile($startDir . '/' . $value, $nameFile, $searchResult);
             // проверка на наличие искомого файла в директории
             // если искомый файл найден, записываем в массив
         } elseif ($value === $nameFile) {
-            $searchResult[] = $startDir . '\\' . $nameFile;
+            $searchResult[] = $startDir . '/' . $nameFile;
         }
     }
 }
