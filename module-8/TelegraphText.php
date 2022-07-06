@@ -2,7 +2,11 @@
 
 class TelegraphText
 {
-    public $title, $text, $author, $slug, $publiched;
+    public $title;// заголовок текста
+    public $text;// текст
+    public $author;// имя автора
+    public $slug;// уникальное имя файла, в котором хранятся данные
+    public $publiched;// дата и время последнего изменения текста
 
     public function __construct(string $author, string $slug)
     {
@@ -31,7 +35,7 @@ class TelegraphText
     }
 
     //загрузка текста из файла в объект
-    public function loadText(): string|false
+    public function loadText(): ?string
     {
         if (file_exists($this->slug) && filesize($this->slug) != 0) {
             $storageText = unserialize(file_get_contents($this->slug));
@@ -43,11 +47,14 @@ class TelegraphText
 
             return $this->text;
         }
-        return false;
+        return null;
     }
 }
 
-$telegraph = new TelegraphText('Evgeniy', 'test-text32.txt');
-$telegraph->editText('Заголовок', 'Текст переданный из функции для добавления/редактирования текста');
-$telegraph->storeText();
-var_dump($telegraph->loadText());
+$telegraph1 = new TelegraphText('Evgeniy', 'test-text1');
+$telegraph1->editText('Заголовок', 'Текст переданный из функции для добавления/редактирования текста');
+$telegraph = new TelegraphText('Evgeniy2', 'test-text1');
+$telegraph->editText('Заголовок2', '222222fsdfs22sgsdb2222gvdvb222222xvsdv');
+//$telegraph->storeText();
+//var_dump($telegraph->loadText());
+//var_dump($telegraph);
