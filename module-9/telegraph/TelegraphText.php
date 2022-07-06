@@ -8,7 +8,7 @@ class TelegraphText
     public $slug;// уникальное имя файла, в котором хранятся данные
     public $publiched;// дата и время последнего изменения текста
 
-    public function __construct(string $author, string $slug, )
+    public function __construct(string $author, string $slug)
     {
         $this->author = $author;
         $this->slug = $slug;
