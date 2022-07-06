@@ -15,7 +15,7 @@ function findFile(string $startDir, string $nameFile, array &$searchResult): voi
 {
     //удаляем из результатов scandir системные папки и
     //обходим итеративно все элементы массива содержащего строки с названием фалов и папок
-    foreach (array_diff(scandir($startDir), array('..', '.', '.git')) as $value) {
+    foreach (array_diff(scandir($startDir), ['..', '.', '.git',]) as $value) {
         // проверка на наличие папок в директории
         // если найдена, повторный запуск функции
         if (is_dir($startDir . '/' . $value)) {
