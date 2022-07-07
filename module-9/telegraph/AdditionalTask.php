@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * ДОПОЛНИТЕЛЬНОЕ ЗАДАНИЕ
+ * 10. Выполните по желанию: попробуйте в методах loadText и storeText класса Text
+ * использовать объект класса FileStorage.
+ * Сам объект передайте в качестве параметра конструктора класса Text.
+ */
 class TelegraphText
 {
     public $title;// заголовок текста
@@ -25,7 +31,8 @@ class TelegraphText
     }
 
     //запись массива с данными в файл
-    public function storeText(TelegraphText $telegraphText): void
+    // имя файла получаю из объекта класса FileStorage использую его метод create()
+    public function storeText(): void
     {
         $storageText = [
             'author' => $this->author,
@@ -33,15 +40,15 @@ class TelegraphText
             'title' => $this->title,
             'text' => $this->text,
         ];
-        file_put_contents($this->fileStorage->create($telegraphText), serialize($storageText));
+        file_put_contents($this->fileStorage->create($this), serialize($storageText));
     }
 
     //загрузка текста из файла в объект
+    // получаю данные из массива используя метод read() класса FileStorage
     public function loadText(): ?string
     {
         if (file_exists($this->slug) && filesize($this->slug) != 0) {
             $storageText = $this->fileStorage->read($this->slug);
-            var_dump($storageText);
 
             $this->author = $storageText['author'];
             $this->publiched = $storageText['published'];
@@ -54,6 +61,9 @@ class TelegraphText
     }
 }
 
+// описываем абстрактные классы для проекта "Телеграф"
+
+// Storage абстрактный класс для хранилища данных
 abstract class Storage
 {
     abstract function create(TelegraphText $objectToSave);
@@ -63,12 +73,14 @@ abstract class Storage
     abstract function list();
 }
 
+// View абстрактный класс для отображения данных
 abstract class View
 {
     abstract function displayTextByld($id);
     abstract function displayTextByUrl($url);
 }
 
+// User абстрактный класс для описания пользователей
 abstract class User
 {
     public $id;
@@ -77,50 +89,53 @@ abstract class User
     abstract function getTextsToEdit();
 }
 
+// класс FileStorage реализует методы для хранения данных в виде файлов
 class FileStorage extends Storage
 {
-    //записываем в файл сериализованный объект класса TelegraphText
+    //записывает в файл сериализованный объект класса TelegraphText и возвращает имя файла
     function create(TelegraphText $objectToSave): string
     {
         $date = new DateTime();
         $fileName = $objectToSave->slug . '_' . $date->format('d.m.Y');
 
-        //если файл с таким именем уже существует, добавляем в названию цифру-постфикс
+        //если файл с таким именем уже существует, добавляем к названию цифру-постфикс
         $fileNamePostfixum  = 1;
         while (file_exists($fileName)) {
             $fileName = $objectToSave->slug . '_' . $date->format('d.m.Y') . '_' . $fileNamePostfixum;
             $fileNamePostfixum++;
         }
+        //переопределяем название файла в переданном объекте и записываем в файл этот объект
         $objectToSave->slug = $fileName;
         file_put_contents($objectToSave->slug, serialize($objectToSave));
 
         return $objectToSave->slug;
     }
 
+    // получает данные об объекте из файла и возвращает в виде объекта TelegraphText
     function read(string $slug): TelegraphText
     {
         return unserialize(file_get_contents($slug));
     }
 
-    function update(string $slug, TelegraphText $updatedObject)
+    // обновляет данные в файле
+    function update(string $slug, TelegraphText $updatedObject): void
     {
         file_put_contents($slug, serialize($updatedObject));
     }
 
+    // удаляет файл-объект из хранилища
     function delete(string $slug): void
     {
         unlink($slug);
     }
 
+    // возвращает массив со всеми объектами в хранилище
     function list(): array
     {
-//        foreach (array_diff(scandir(__DIR__), ['.', '..', '.git']) as $item) {
-//
-//            if (unserialize(file_get_contents($item)) != false) {
-//                $arr[] = unserialize(file_get_contents($item));
-//            }
-//        }
-//        return $arr;
+        // 1. получаем список всех файлов в папке
+        // 2. записываем содержимое файлов в массив
+        // 3. проводим десериализацию элементов массива
+        // 4. удаляем из массива элементы десериализация которых не удалась (вернула false)
         return array_filter(array_map('unserialize',
             array_map('file_get_contents', array_diff(scandir(__DIR__), ['.', '..', '.git',]))));
     }
@@ -142,6 +157,6 @@ $telegraph->editText('Заголовок2', '222222fsdfs22sgsdb2222gvdvb222222xv
 
 
 $telegraph->storeText($telegraph);
-$telegraph1->loadText();
+$telegraph->loadText();
 //var_dump($telegraph->loadText());
 //var_dump($telegraph);
