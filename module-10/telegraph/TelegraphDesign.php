@@ -3,16 +3,45 @@
 // подключаем класс TelegraphText для того, чтобы была возможность использовать его объекты
 include 'TelegraphText.php';
 
+// интерфейс для реализации логгирования
+interface LoggerInterface
+{
+    public function logMessage(string $errorMessage): void;
+    public function lastMessages(int $numberOfErrors): array;
+}
+
+// интерфейс для обработки событий
+interface EventListenerInterface
+{
+    public function attachEvent(string $nameMethod,callable $callbackFunc): void;
+    public function detouchEvent(string $nameMeth): void;
+}
+
 // описываем абстрактные классы для проекта "Телеграф"
 
 // абстрактный класс для хранилища данных
-abstract class Storage
+abstract class Storage implements LoggerInterface
 {
     abstract public function create(TelegraphText $objectToSave);
     abstract public function read(string $slug);
     abstract public function update(string $slug, TelegraphText $updatedObject);
     abstract public function delete(string $slug);
     abstract public function list();
+
+    /**
+     * Реализация интерфейса LoggerInterface по записи ошибок в файл logs.txt
+     *
+     * @param string $errorMessage
+     */
+    public function logMessage(string $errorMessage): void
+    {
+        file_put_contents('logs.txt', $errorMessage . PHP_EOL, FILE_APPEND);
+    }
+
+    public function lastMessages(int $numberOfErrors): array
+    {
+        return file('logs.txt');
+    }
 }
 
 // абстрактный класс для отображения данных
@@ -93,3 +122,9 @@ var_dump($telegraph1->slug);
 //var_dump($file->read($telegraph->slug));
 //var_dump($file->create($telegraph1));
 var_dump($file->list());
+
+$file->logMessage('Тестирование записи ошибок.');
+$file->logMessage('Произошла ошибка.');
+$file->logMessage('Внимание, будьте бдительны.');
+
+var_dump($file->lastMessages(5));

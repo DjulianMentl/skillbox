@@ -13,7 +13,7 @@ class TelegraphText
     public $author;// имя автора
     public $slug;// уникальное имя файла, в котором хранятся данные
     public $publiched;// дата и время последнего изменения текста
-    public $fileStorage; //объект класса
+    public $fileStorage; //объект класса FileStorage
 
     public function __construct(string $author, string $slug, FileStorage $fileStorage)
     {
@@ -112,7 +112,7 @@ class FileStorage extends Storage
     }
 
     // получает данные об объекте из файла и возвращает в виде объекта TelegraphText
-    public function read(string $slug): TelegraphText|array
+    public function read(string $slug): TelegraphText
     {
         return unserialize(file_get_contents($slug));
     }
