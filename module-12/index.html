@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Рындя Евгений</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+            var container = document.querySelector('.popup-container');
+            var popupButtons = document.querySelectorAll('.open-popup');
+            for (let i = 0; i < popupButtons.length; i++) {
+                popupButtons[i].addEventListener('click', function(){
+                    container.style.display = 'flex';
+                });
+            }
+        });
+    </script>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: #e7e7e7;
+        }
+
+        header {
+            height: 100px;
+            padding: 0 40px;
+        }
+
+        header > div {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        section {
+            padding: 40px;
+        }
+
+        .fixed-conteiner {
+            max-width: 1000px;
+            height: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .first-block {
+            height: 300px;
+        }
+
+        .first-block > div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            background-image: url("img/i.jpg");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: right center;
+        }
+
+        .services {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .services > div {
+            width: 200px;
+        }
+
+        .services img {
+            width: 150px;
+        }
+
+        .price-info {
+            background-color: #3d52fe;
+            color: white;
+        }
+
+        .light-button {
+            border: 1px solid black;
+            background-color: transparent;
+        }
+
+        .dark-button {
+            background-color: #3d52fe;
+            color: white;
+            border: 1px solid #3d52fe;
+        }
+
+        button {
+            padding: 10px 30px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        footer {
+            padding: 40px;
+        }
+
+        .popup-container {
+            background-color: #000000b3;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup {
+            background-color: white;
+            width: 300px;
+            height: 300px;
+            padding: 30px;
+            border-radius: 5px;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="popup-container">
+        <form class="popup">
+
+        </form>
+    </div>
+    <header>
+        <div class="fixed-conteiner">
+            <div>
+                <a href="#">Услуги</a>
+                <a href="#">Портфолио</a>
+                <a href="#">Стоимость</a>
+            </div>
+            <div>
+                <span>+7 962-027-81-12</span>
+                <button class="light-button open-popup">Заказать звонок</button>
+            </div>
+        </div>
+    </header>
+    <section class="first-block">
+        <div class="fixed-conteiner">
+            <h1>Евгений Рындя</h1>
+            <p>Backend/Frontend-разработчик и архитектор веб-приложений</p>
+            <button class="dark-button open-popup">Узнать больше</button>
+        </div>
+    </section>
+    <section>
+        <div class="fixed-conteiner">
+            <h2>Что я делаю</h2>
+            <div class="services">
+                <div>
+                    <img src="img/1.jpg" alt="Пример">
+                    Создание лэндингов и сайтов любой сложности
+                </div>
+                <div>
+                    <img src="img/2.jpg" alt="Пример">
+                    Адаптивная верстка под все браузеры и устройства
+                </div>
+                <div>
+                    <img src="img/3.jpg" alt="Пример">
+                    Backend-разработка и программирование
+                </div>
+                <div>
+                    <img src="img/4.jpg" alt="Пример">
+                    Исправление и доработка существующих сайтов
+                </div>
+            </div>
+            <button class="light-button open-popup">Узнать стоимость</button>
+        </div>
+    </section>
+    <section>
+        <div class="fixed-conteiner">
+            <h2>Портфолио</h2>
+        </div>
+    </section>
+    <section class="price-info">
+        <div class="fixed-conteiner">
+            <h2>Адаптивная верстка под все устройства и браузеры от 1000 р. всего за 4 часа</h2>
+        </div>
+    </section>
+    <footer>
+        <div class="fixed-conteiner">
+            <a href="#">Услуги</a>
+            <a href="#">Портфолио</a>
+            <a href="#">Стоимость</a>
+        </div>
+    </footer>
+</body>
+</html>
