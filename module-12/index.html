@@ -2,126 +2,39 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style/styles.css">
     <title>Рындя Евгений</title>
     <script>
-        document.addEventListener("DOMContentLoaded", function(){
+        document.addEventListener("DOMContentLoaded", function (){
             var container = document.querySelector('.popup-container');
             var popupButtons = document.querySelectorAll('.open-popup');
             for (let i = 0; i < popupButtons.length; i++) {
-                popupButtons[i].addEventListener('click', function(){
+                popupButtons[i].addEventListener('click', function (){
                     container.style.display = 'flex';
                 });
             }
+
+            container.addEventListener('click', function (event){
+               if (event.target == container) {
+                   container.style.display = 'none';
+               }
+            });
         });
     </script>
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            background-color: #e7e7e7;
-        }
-
-        header {
-            height: 100px;
-            padding: 0 40px;
-        }
-
-        header > div {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        section {
-            padding: 40px;
-        }
-
-        .fixed-conteiner {
-            max-width: 1000px;
-            height: 100%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .first-block {
-            height: 300px;
-        }
-
-        .first-block > div {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            background-image: url("img/i.jpg");
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: right center;
-        }
-
-        .services {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-        }
-
-        .services > div {
-            width: 200px;
-        }
-
-        .services img {
-            width: 150px;
-        }
-
-        .price-info {
-            background-color: #3d52fe;
-            color: white;
-        }
-
-        .light-button {
-            border: 1px solid black;
-            background-color: transparent;
-        }
-
-        .dark-button {
-            background-color: #3d52fe;
-            color: white;
-            border: 1px solid #3d52fe;
-        }
-
-        button {
-            padding: 10px 30px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        footer {
-            padding: 40px;
-        }
-
-        .popup-container {
-            background-color: #000000b3;
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            display: none;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .popup {
-            background-color: white;
-            width: 300px;
-            height: 300px;
-            padding: 30px;
-            border-radius: 5px;
-
-        }
-    </style>
 </head>
 <body>
     <div class="popup-container">
         <form class="popup">
-
+            <div>
+                <input type="text" id="name" name="name" placeholder="Введите ваше имя">
+            </div>
+            <div>
+                <input type="email" id="email" name="email" placeholder="Введите email">
+            </div>
+            <input  type="submit" name="send-button" value="Отправить">
         </form>
     </div>
     <header>
@@ -132,7 +45,7 @@
                 <a href="#">Стоимость</a>
             </div>
             <div>
-                <span>+7 962-027-81-12</span>
+                <span class="tel">+7 (962) 027-81-12</span>
                 <button class="light-button open-popup">Заказать звонок</button>
             </div>
         </div>
@@ -149,19 +62,19 @@
             <h2>Что я делаю</h2>
             <div class="services">
                 <div>
-                    <img src="img/1.jpg" alt="Пример">
+                    <img src="img/1.png" alt="Пример">
                     Создание лэндингов и сайтов любой сложности
                 </div>
                 <div>
-                    <img src="img/2.jpg" alt="Пример">
+                    <img src="img/2.png" alt="Пример">
                     Адаптивная верстка под все браузеры и устройства
                 </div>
                 <div>
-                    <img src="img/3.jpg" alt="Пример">
+                    <img src="img/3.png" alt="Пример">
                     Backend-разработка и программирование
                 </div>
                 <div>
-                    <img src="img/4.jpg" alt="Пример">
+                    <img src="img/4.png" alt="Пример">
                     Исправление и доработка существующих сайтов
                 </div>
             </div>
@@ -171,18 +84,51 @@
     <section>
         <div class="fixed-conteiner">
             <h2>Портфолио</h2>
+            <div class="portfolio">
+                <div>
+                    <img src="img/e1.png" alt="Пример">
+                    Сайт психолога Веры Антоновой
+                </div>
+                <div>
+                    <img src="img/e2.png" alt="Пример">
+                    Сайт магазина детской одежды
+                </div>
+                <div>
+                    <img src="img/e3.png" alt="Пример">
+                    Сайт магазина "Рыболов"
+                </div>
+            </div>
+            <button class="light-button open-popup">Заказать проект</button>
         </div>
     </section>
-    <section class="price-info">
-        <div class="fixed-conteiner">
-            <h2>Адаптивная верстка под все устройства и браузеры от 1000 р. всего за 4 часа</h2>
+    <section>
+        <div class="fixed-conteiner price-info">
+            <h2>Адаптивная верстка под все устройства и браузеры от 1000 р. всего за 4 часа*</h2>
+            <br>
+            <p>* Срок и стоимость могут отличаться от заявленных и рассчитываются индивидуально, в зависимости от сложности задач.</p>
         </div>
     </section>
     <footer>
-        <div class="fixed-conteiner">
-            <a href="#">Услуги</a>
-            <a href="#">Портфолио</a>
-            <a href="#">Стоимость</a>
+        <div class="fixed-conteiner footer-block">
+            <div>
+                <a href="#">Услуги</a>
+                <a href="#">Портфолио</a>
+                <a href="#">Стоимость</a>
+            </div>
+            <div>
+                <a href="mailto:emrindya@gmail.com">emrindya@gmail.com</a>
+                <span class="tel">+7 (962) 027-81-12</span>
+            </div>
+            <div>
+                <button class="light-button open-popup">Заказать звонок</button>
+                <div class="footer-icons">
+                    <img src="img/fb.png" alt="иконки">
+                    <img src="img/inst.png" alt="иконки">
+                    <img src="img/telegram.png" alt="иконки">
+                    <img src="img/vk.png" alt="иконки">
+                    <img src="img/you.png" alt="иконки">
+                </div>
+            </div>
         </div>
     </footer>
 </body>
