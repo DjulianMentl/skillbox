@@ -16,3 +16,4 @@ spl_autoload_register('loaderLibOne');
 spl_autoload_register('loaderLibTwo');
 
 $anotherObject = new AnotherClass();
+var_dump($anotherObject);

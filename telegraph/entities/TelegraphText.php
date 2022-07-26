@@ -1,5 +1,6 @@
 <?php
 
+// Класс для работы с текстом
 class TelegraphText
 {
     private $title;// заголовок текста
@@ -134,14 +135,3 @@ class TelegraphText
         return null;
     }
 }
-
-$telegraph1 = new TelegraphText('Evgeniy', 'test-text1');
-$telegraph1->editText('Заголовок', 'Текст переданный из функции для добавления/редактирования текста');
-$telegraph = new TelegraphText('Evgeniy2', 'test-text1');
-$telegraph->editText('Заголовок2', '222222fsdfs22sgsdb2222gvdvb222222xvsdv');
-//$telegraph->text = 'Используйте «магические» геттеры';
-echo $telegraph->text;
-//$telegraph->storeText();
-//var_dump($telegraph->loadText());
-//var_dump($telegraph1);
-
