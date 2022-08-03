@@ -103,8 +103,13 @@ class TelegraphText
     //добавление/редактирование текста в объекте
     public function editText (string $title, string $text): void
     {
+        $textLength = strlen($text);
+        if ($textLength >= 1 && $textLength <= 500) {
+            $this->text = $text;
+        } else {
+            throw new Exception('Длина текста должна быть от 1 до 500 символов');
+        }
         $this->title = $title;
-        $this->text = $text;
     }
 
     //запись массива с данными в файл

@@ -1,8 +1,5 @@
 <?php
 
-require_once __DIR__ . './../interfaces/EventListenerInterface.php';
-require_once __DIR__ . './../interfaces/LoggerInterface.php';
-
 // абстрактный класс для хранилища данных
 abstract class Storage implements LoggerInterface, EventListenerInterface
 {

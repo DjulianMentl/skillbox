@@ -2,7 +2,6 @@
 
 include_once './autoload.php';
 
-
 $file = new FileStorage();
 //$file->create($telegraph);
 //$file->create($telegraph1);

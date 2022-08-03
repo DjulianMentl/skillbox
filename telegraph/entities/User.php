@@ -1,7 +1,5 @@
 <?php
 
-require_once '../interfaces/EventListenerInterface.php';
-
 // абстрактный класс для описания пользователей
 abstract class User implements EventListenerInterface
 {
