@@ -9,7 +9,15 @@ class TelegraphText
     private $slug;// уникальное имя файла, в котором хранятся данные
     private $publiched;// дата и время последнего изменения текста
 
-    public function __set($name, $value)
+    public function __construct(string $author, string $slug)
+    {
+        $this->author = $author;
+        $this->slug = $slug;
+        $date = new DateTime;
+        $this->published = $date->format('d.m.Y H:i:s');
+    }
+
+    public function __set(string $name, string|DateTime $value): void
     {
         switch ($name) {
             case 'author':
@@ -19,14 +27,15 @@ class TelegraphText
                 $this->setSlug($value);
                 break;
             case 'publiched':
-                $this->setPubliched($value);
+                $this->setPublished($value);
                 break;
             case 'text':
                 $this->setText($value);
+                break;
         }
     }
 
-    public function __get($name)
+    public function __get(string $name): ?string
     {
         switch ($name) {
             case 'author':
@@ -34,10 +43,11 @@ class TelegraphText
             case 'slug':
                 return $this->getSlug();
             case 'publiched':
-                return $this->getPubliched();
+                return $this->setPublished();
             case 'text':
                 return $this->getText();
         }
+        return null;
     }
 
     public function getText(): ?string
@@ -47,22 +57,28 @@ class TelegraphText
 
     public function setText(string $text): void
     {
+        // Если текста нет или длина текста больше 500 символов выбрасываем ошибку
+        if (empty($text) || strlen($text) > 500) {
+            throw new Exception('Длина текста должна быть от 1 до 500 символов.');
+        }
+
         $this->text = $text;
         $this->storeText();
     }
 
-    public function getPubliched(): string
+    public function getPublished(): string
     {
         return $this->publiched;
     }
 
-    public function setPubliched($publiched): void
+    public function setPublished(string $published): void
     {
-        if ($publiched < date("d.m.Y")) {
-            echo 'Дата не может быть меньше текущей';
+        $dt = new DateTime();
+        if ($published < $dt->format("d.m.Y")) {
+            echo 'Дата не может быть меньше текущей' . PHP_EOL;
             return;
         }
-        $this->publiched = $publiched . date(" H:i:s");
+        $this->published = $published . date(" H:i:s");
     }
 
     public function getSlug(): string
@@ -87,28 +103,16 @@ class TelegraphText
     public function setAuthor(string $author): void
     {
         if (strlen($author) > 120) {
-            echo 'Имя автора не может быть больше 120 символов.';
+            echo 'Имя автора не может быть больше 120 символов.' . PHP_EOL;
             return;
         }
         $this->author = $author;
     }
 
-    public function __construct(string $author, string $slug)
-    {
-        $this->author = $author;
-        $this->slug = $slug;
-        $this->publiched = date("d.m.Y H:i:s");
-    }
-
     //добавление/редактирование текста в объекте
     public function editText (string $title, string $text): void
     {
-        $textLength = strlen($text);
-        if ($textLength >= 1 && $textLength <= 500) {
-            $this->text = $text;
-        } else {
-            throw new Exception('Длина текста должна быть от 1 до 500 символов');
-        }
+        $this->text = $text;
         $this->title = $title;
     }
 

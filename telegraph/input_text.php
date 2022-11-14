@@ -1,71 +1,77 @@
 <?php
-// подкючаем PHPMailer
+// Подкючаем PHPMailer
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
-// загружаем Composer autoloader и автозагрузку классов и интерфейсов
+
+// Загружаем Composer autoloader и автозагрузку классов и интерфейсов
 require_once __DIR__ . '/autoload.php';
 
 // Оформление и вывод сообщений пользовательских исключений на экран
-function getExceptionDisplay(Throwable $e): void
+function showLenghtTextExceptionDisplay(Throwable $e): void
 {
     echo '<div style=" padding: 100px; font-weight: bold; background-color: pink; width: 20%;">' . $e->getMessage() . '</div>';
 }
-set_exception_handler('getExceptionDisplay');
+set_exception_handler('showLenghtTextExceptionDisplay');
 
-//переменная-индикатор статуса отправки на эл. почту
+// Переменная-индикатор статуса отправки на эл. почту
 $sendEmailStatus = '';
-//переменная-индикатор корректного ввода адреса электронной почты
-$isEmail = true;
 
 if (isset($_POST['sendText'])) {
-    //в целях безопасности обрабатываем получаемые данные
-    $authorName = trim(htmlspecialchars($_POST['authorName']));
-    $text = trim(htmlspecialchars($_POST['text']));
-    $emailAddress = trim(htmlspecialchars($_POST['email']));
 
-    //если введены данные записываем их в файл
-    if (! empty($authorName) && ! empty($text)) {
-        // сохраняем данные из формы в файл
-        $contentFromForm = new TelegraphText($authorName, 'text-from-form');
-        $contentFromForm->editText('Заголовок', $text);
+    // В целях безопасности обрабатываем получаемые данные
+    $author = trim(htmlspecialchars($_POST['authorName']));
+    $text = trim(htmlspecialchars($_POST['text']));
+    $email = trim(htmlspecialchars($_POST['email']));
+
+    // Если заполнены автор и текст, создать объект класса TelegraphText и заполняем его данными
+    if (!empty($author) && !empty($text)) {
+        $contentFromForm = new TelegraphText($author, 'text-from-form');
+        $contentFromForm->text = $text;
+
+        // Создаем объект класса FileStorage и с помощью его метода create() записываем данные в файл
         $storage = new FileStorage();
         $storage->create($contentFromForm);
 
-        //если введен email отправляем копию на электронную почту
-        if (! empty($emailAddress)) {
-
+        // Если заполнен email отправляем письмо на указанный адрес эл. почты
+        // Проверяем введенный адрес на содержание символа @
+        if (empty($email) || !preg_match('/@/', $email)) {
+            $incorrectEmail = true;
+        } else {
+            // Создать экземпляр; передача `true` разрешает исключения
             $mail = new PHPMailer(true);
 
             try {
-                $mail->CharSet = 'UTF-8';
 
                 //настройка SMTP сервера yandex
 //                $mail->SMTPDebug = SMTP::DEBUG_SERVER;
                 $mail->isSMTP();
                 $mail->SMTPAuth   = true;
-
+                $mail->CharSet = 'UTF-8';
                 $mail->Host       = 'smtp.yandex.ru';
                 $mail->Username   = 'hakmakgo2@yandex.ru';
-                $mail->Password   = 'solncevsem3';
+                $mail->Password   = 'solncevsem33';
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
                 $mail->Port       = 465;
 
                 //отправитель
                 $mail->setFrom('hakmakgo2@yandex.ru', 'Sender');
                 //получатель
-                //проверка введенного адреса на содержание символа @
-                preg_match("/@/", $emailAddress) ? $mail->addAddress($emailAddress, 'Recipient') : $isEmail = false;
+                $mail->addAddress($email, $author);
 
                 //Отправка
                 $mail->isHTML(true);
-                $mail->Subject = $authorName;
+                $mail->Subject = $author . 'шлет привет';
                 $mail->Body = $text;
-                $mail->send();
-                $sendEmailStatus = true;
+
+                // Присваиваем статуст в зависимости от результата отправки
+                $mail->send() ? $sendEmailStatus = 'succes' : $sendEmailStatus = 'error';
+
             } catch (Exception $e) {
 
-                $sendEmailStatus = false;
+                $sendEmailStatus = 'error';
+
+                // При выбросе исключения записываем ошибку в лог файл
                 $date = new DateTime();
                 file_put_contents('logs-send-email.txt', $date->format('Y.m.d H:i:s') . $mail->ErrorInfo . PHP_EOL, FILE_APPEND);
             }
@@ -83,14 +89,19 @@ if (isset($_POST['sendText'])) {
 </head>
 <body>
     <div class="send-status">
-        <?php if ($sendEmailStatus === true) {?>
-        <div class="send-succes">Сообщение отправлено</div>
-        <?php } elseif ($sendEmailStatus === false) {?>
-            <div class="send-failed">Ошибка отправки</div>
+        <?php if ($sendEmailStatus === "succes") {?>
+            <div class="send-succes">
+                <p>Сообщение отправлено</p>
+            </div>
+        <?php } elseif ($sendEmailStatus === 'error') {?>
+            <div class="send-failed">
+                <p>Ошибка отправки</p>
+            </div>
         <?php } ?>
     </div>
+    <h2>Форма отправки текста в "Телеграф"</h2>
     <div class="text-send-form">
-        <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
+        <form method="post" action="<?= htmlspecialchars($_SERVER['PHP_SELF']); ?>">
             <div>
                 <label for="authorName">Введите имя:</label>
                 <input type="text" name="authorName" id="authorName" required>
@@ -104,8 +115,8 @@ if (isset($_POST['sendText'])) {
                 <input type="email" name="email" id="email">
                 <?php
                 // Проверка введенного адреса эл. почты
-                if ($isEmail === false) {?>
-                <p>Введен неверный адрес эл. почты</p>
+                if (isset($incorrectEmail)) {?>
+                    <p>Введен некорректный e-mail</p>
                 <?php } ?>
             </div>
             <button type="submit" name="sendText">Отправить</button>

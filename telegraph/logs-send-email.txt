@@ -1,4 +1,0 @@
-2022.08.03 15:26:06SMTP Error: Could not connect to SMTP host.
-2022.08.03 15:26:58You must provide at least one recipient email address.
-2022.08.03 15:29:12You must provide at least one recipient email address.
-2022.08.03 16:07:17SMTP Error: Could not authenticate.

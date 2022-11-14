@@ -4,18 +4,18 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 // автозагрузчик классов из папки /entities/
-function loaderEntities(string $className): void
+function loaderEntities(string $class): void
 {
-    if (file_exists(__DIR__ . '/entities/' . $className . '.php')) {
-        require_once __DIR__ . '/entities/' . $className . '.php';
+    if (file_exists(__DIR__ . '/entities/' . $class . '.php')) {
+        require_once __DIR__ . '/entities/' . $class . '.php';
     }
 }
 
 // автозагрузчик интерфейсов из папки /interfaces/
-function loaderInterfaces(string $interfaceName): void
+function loaderInterfaces(string $interface): void
 {
-    if (file_exists(__DIR__ . '/interfaces/' . $interfaceName . '.php')) {
-        require_once __DIR__ . '/interfaces/' . $interfaceName . '.php';
+    if (file_exists(__DIR__ . '/interfaces/' . $interface . '.php')) {
+        require_once __DIR__ . '/interfaces/' . $interface . '.php';
     }
 }
 
