@@ -29,12 +29,8 @@ session_start();
         $_SESSION['success-upload'] = 0;
         $_SESSION['names-upload-files'] = [];
 
-    // Проверяем отправлялась ли форма и является ли файл изображением
-    } elseif (
-            isset($_POST['sendFile'])
-            && ($_FILES['photoToUpload']['size'] > 0)
-            && getimagesize($_FILES['photoToUpload']['tmp_name'])
-    ) {
+    // Проверяем отправлялась ли форма и существует ли файл
+    } elseif (isset($_POST['sendFile']) && $_FILES['photoToUpload']['size'] > 0) {
 
         // Инициализируем переменные содержащие информацию о типе файла и его размере
         $checkImages = mime_content_type($_FILES['photoToUpload']['tmp_name']);
@@ -73,6 +69,6 @@ session_start();
                 $_SESSION['success-upload'] = 0;
             }
         } else {
-            echo 'Файл больше 2 Мб или не является картинкой';
+            echo 'Файл больше 2 Мб или расширение отличается от .jpeg или .png';
         }
     }
