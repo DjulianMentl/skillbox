@@ -61,9 +61,12 @@ class FileStorage extends Storage
     }
 
     // получает данные об объекте из файла и возвращает в виде объекта TelegraphText
-    public function read(string $slug): TelegraphText
+    public function read(string $slug): ?TelegraphText
     {
-        return unserialize(file_get_contents($slug));
+        if (file_exists($slug)) {
+            return unserialize(file_get_contents($slug));
+        }
+        return null;
     }
 
     // обновляет данные в файле
