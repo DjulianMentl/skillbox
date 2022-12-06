@@ -1,4 +1,5 @@
 <?php
+phpinfo();
 
 $searchRoot = 'E:/OpenServer/domains/localhost/skillbox/module-7/test_search';
 $searchName = 'test.txt';

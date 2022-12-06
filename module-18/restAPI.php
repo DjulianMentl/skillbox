@@ -93,11 +93,11 @@ class UserStorage extends Storage
 
 $userStorage = new UserStorage();
 
-// C - POST /user.php
-// R - GET /user.php?id=1
-// U - PUT /user.php
-// D - DELETE /user.php?id=1
-// R all - GET /user.php
+// C - POST /restAPI.php
+// R - GET /restAPI.php?id=1
+// U - PUT /restAPI.php
+// D - DELETE /restAPI.php?id=1
+// R all - GET /restAPI.php
 
  switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST' :
