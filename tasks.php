@@ -1,6 +1,10 @@
 <?php
 
-// Преобразование римских в арабские
+/**
+ *  Преобразование римских цифр в арабские
+ * @param $s
+ * @return int
+ */
 function romanToInt($s) {
     $arabicInteger = 0;
     $len = strlen($s);
