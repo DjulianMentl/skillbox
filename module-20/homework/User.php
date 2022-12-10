@@ -13,7 +13,11 @@ class User
         }
     }
 
-    // Добавляет в базу нового пользователя
+    /**
+     * Добавляет в базу нового пользователя
+     * @param array $userData
+     * @return void
+     */
     public function create(array $userData): void
     {
         $stmtInsertUser = $this->connection->prepare(
@@ -22,7 +26,12 @@ class User
         $stmtInsertUser->execute($userData);
     }
 
-    // Обновляет данные о пользователях в базе
+    /**
+     * Обновляет данные о пользователях в базе
+     * @param array $updateDate
+     * @param int $id
+     * @return void
+     */
     public function update(array $updateDate, int $id): void
     {
         $sql = "UPDATE users SET ";
@@ -38,14 +47,21 @@ class User
         $stmtUpdateUser->execute($updateDate);
     }
 
-    // Удаляет пользователя из базы
+    /**
+     * Удаляет пользователей из базы
+     * @param int $id
+     * @return void
+     */
     public function delete(int $id): void
     {
         $stmtDelete = $this->connection->prepare("DELETE FROM users WHERE id = :id");
         $stmtDelete->execute(['id' => $id]);
     }
 
-    // Выводит список всех пользователей из базы
+    /**
+     * Выводит список всех пользователей из базы
+     * @return array
+     */
     public function list(): array
     {
         $stmt = $this->connection->prepare("SELECT * FROM users");

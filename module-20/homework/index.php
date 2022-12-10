@@ -80,6 +80,7 @@ var_dump($_POST);
 
 /**
  * Функция для проверки данных введенных при добавлении или редактировании
+ * addslashes() используется для экранирования
 * @return array
  */
 function userDataValidity()
