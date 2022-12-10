@@ -13,6 +13,7 @@ class User
         }
     }
 
+    // Добавляет в базу нового пользователя
     public function create(array $userData): void
     {
         $stmtInsertUser = $this->connection->prepare(
@@ -21,6 +22,7 @@ class User
         $stmtInsertUser->execute($userData);
     }
 
+    // Обновляет данные о пользователях в базе
     public function update(array $updateDate, int $id): void
     {
         $sql = "UPDATE users SET ";
@@ -30,18 +32,20 @@ class User
         $sql = trim($sql, " ");
         $sql = rtrim($sql, ",");
 
-        $sql .= " WHERE id = $id";
+        $sql .= " WHERE id = $id" . ";";
 
         $stmtUpdateUser = $this->connection->prepare($sql);
         $stmtUpdateUser->execute($updateDate);
     }
 
+    // Удаляет пользователя из базы
     public function delete(int $id): void
     {
-        $stmtDelete = $this->connection->prepare("DELETE FROM users WHERE id = $id");
-        $stmtDelete->execute();
+        $stmtDelete = $this->connection->prepare("DELETE FROM users WHERE id = :id");
+        $stmtDelete->execute(['id' => $id]);
     }
 
+    // Выводит список всех пользователей из базы
     public function list(): array
     {
         $stmt = $this->connection->prepare("SELECT * FROM users");
@@ -50,14 +54,14 @@ class User
     }
 }
 
-$newUser[0] = ['email' => 'mais@jkd.ru', 'first_name' => 'Mais', 'last_name' => 'Nevskiy', 'age' => 31, 'date_created' => (new DateTime())->format('Y-m-d H:i:s')];
-$newUser[1]= ['email' => 'Sasha@jkd.ru', 'first_name' => 'Sasha', 'last_name' => 'Hrenko', 'age' => 44, 'date_created' => (new DateTime())->format('Y-m-d H:i:s')];
-$newUser[2] = ['email' => 'Serg@jkd.ru', 'first_name' => 'Serg', 'last_name' => 'Skoriy', 'age' => 27, 'date_created' => (new DateTime())->format('Y-m-d H:i:s')];
-$newUser[3] = ['email' => 'Gekae@jkd.ru', 'first_name' => 'Gekae', 'last_name' => 'Kolobkov', 'age' => 61, 'date_created' => (new DateTime())->format('Y-m-d H:i:s')];
-$newUser[4] = ['email' => 'Pavel@jkd.ru', 'first_name' => 'Pavel', 'last_name' => 'Solncev', 'age' => 58, 'date_created' => (new DateTime())->format('Y-m-d H:i:s')];
+//$newUser[0] = ['email' => 'mais@jkd.ru', 'first_name' => 'Mais', 'last_name' => 'Nevskiy', 'age' => 31, 'date_created' => (new DateTime())->format('Y-m-d H:i:s')];
+//$newUser[1]= ['email' => 'Sasha@jkd.ru', 'first_name' => 'Sasha', 'last_name' => 'Hrenko', 'age' => 44, 'date_created' => (new DateTime())->format('Y-m-d H:i:s')];
+//$newUser[2] = ['email' => 'Serg@jkd.ru', 'first_name' => 'Serg', 'last_name' => 'Skoriy', 'age' => 27, 'date_created' => (new DateTime())->format('Y-m-d H:i:s')];
+//$newUser[3] = ['email' => 'Gekae@jkd.ru', 'first_name' => 'Gekae', 'last_name' => 'Kolobkov', 'age' => 61, 'date_created' => (new DateTime())->format('Y-m-d H:i:s')];
+//$newUser[4] = ['email' => 'Pavel@jkd.ru', 'first_name' => 'Pavel', 'last_name' => 'Solncev', 'age' => 58, 'date_created' => (new DateTime())->format('Y-m-d H:i:s')];
 $updateUser = ['last_name' => 'Greenkin'];
-$updateUserId = 1;
-$deleteUserId = 2;
+$updateUserId = 8;
+$deleteUserId = 8;
 
 $userObj = new User();
 //foreach ($newUser as $item) {

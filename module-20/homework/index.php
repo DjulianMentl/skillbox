@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/User.php";
+var_dump($_POST);
 ?>
 
 <!<!doctype html>
@@ -83,11 +84,11 @@ require_once __DIR__ . "/User.php";
  */
 function userDataValidity()
 {
-    $email = htmlspecialchars($_POST['email']);
-    $firstName = htmlspecialchars($_POST['first_name']);
-    $lastName = htmlspecialchars($_POST['last_name']);
-    $age = htmlspecialchars($_POST['age']);
-    $createdDate = htmlspecialchars($_POST['date_created']);
+    $email = addslashes($_POST['email']);
+    $firstName = addslashes($_POST['first_name']);
+    $lastName = addslashes($_POST['last_name']);
+    $age = addslashes($_POST['age']);
+    $createdDate = addslashes($_POST['date_created']);
 
      return ['email' => $email, 'first_name' => $firstName, 'last_name' => $lastName, 'age' => $age, 'date_created' => $createdDate];
 }
