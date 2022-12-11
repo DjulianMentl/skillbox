@@ -1,9 +1,9 @@
 <?php
 require_once __DIR__ . "/User.php";
-var_dump($_POST);
+
 ?>
 
-<!<!doctype html>
+<!doctype html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -17,9 +17,9 @@ var_dump($_POST);
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Email</th>
                 <th>Имя</th>
                 <th>Фамилия</th>
-                <th>Email</th>
                 <th>Возраст</th>
                 <th>Дата</th>
                 <th>Edit</th>
@@ -85,11 +85,11 @@ var_dump($_POST);
  */
 function userDataValidity()
 {
-    $email = addslashes($_POST['email']);
-    $firstName = addslashes($_POST['first_name']);
-    $lastName = addslashes($_POST['last_name']);
-    $age = addslashes($_POST['age']);
-    $createdDate = addslashes($_POST['date_created']);
+    $email = addslashes($_POST['email'] ?? '');
+    $firstName = addslashes($_POST['first_name'] ?? '');
+    $lastName = addslashes($_POST['last_name'] ?? '');
+    $age = addslashes($_POST['age'] ?? '');
+    $createdDate = addslashes($_POST['date_created'] ?? '');
 
      return ['email' => $email, 'first_name' => $firstName, 'last_name' => $lastName, 'age' => $age, 'date_created' => $createdDate];
 }
@@ -102,9 +102,9 @@ if (isset($_POST['delete_user'])) {
 if (isset($_POST['edit_user'])) {
 
     $id = intval($_POST['edit_user']);
-    $userArrays[$id] = userDataValidity();
+    $userArrays = userDataValidity();
 
-    $userObj->update($userArrays[$id], $id);
+    $userObj->update($userArrays, $id);
 }
 
 // Добавление новых пользователей
